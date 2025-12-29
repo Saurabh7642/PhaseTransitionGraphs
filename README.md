@@ -191,8 +191,9 @@ p = (1 + ε) / n
 
 ## 📊 Experimental Results
 
-Below are the results of the simulations for different values of n. Each plot shows the largest component size normalized by n as a function of the expected node degree (np).
-Each plot demonstrates the phase transition in random graphs. The red dashed line indicates np = 1, where the largest component starts to emerge with high probability. The green dashed line indicates np = log(n), where the graph becomes fully connected with high probability.
+Below are the results of the simulations for different values of n.
+Each plot shows the largest component size normalized by n as a function of the expected node degree (np).
+
 ### n = 10
 ![n=10](results/plot_10.png)
 
@@ -216,6 +217,7 @@ Each plot demonstrates the phase transition in random graphs. The red dashed lin
 - Strong agreement with Erdős–Rényi theory
 - Concentration effects clearly visible
 
+Each plot demonstrates the phase transition in random graphs. The red dashed line indicates np = 1, where the largest component starts to emerge with high probability. The green dashed line indicates np = log(n), where the graph becomes fully connected with high probability.
 ---
 
 ## 🛠 How to Run
