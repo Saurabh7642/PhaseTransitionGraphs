@@ -216,8 +216,9 @@ Each plot shows the largest component size normalized by n as a function of the 
 - Sharp emergence of the giant component near `n * p ≈ 1`
 - Strong agreement with Erdős–Rényi theory
 - Concentration effects clearly visible
+- 
+*Each plot demonstrates the phase transition in random graphs. The red dashed line indicates n·p = 1, where the largest component starts to emerge with high probability. The green dashed line indicates n·p = log(n), where the graph becomes fully connected with high probability.*
 
-Each plot demonstrates the phase transition in random graphs. The red dashed line indicates np = 1, where the largest component starts to emerge with high probability. The green dashed line indicates np = log(n), where the graph becomes fully connected with high probability.
 ---
 
 ## 🛠 How to Run
