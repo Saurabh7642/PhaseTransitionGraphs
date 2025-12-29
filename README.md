@@ -27,35 +27,6 @@ The objectives of this project are to:
 ## 2. Erdős–Rényi Random Graph Model
 
 We work with the classical Erdős–Rényi model denoted by:
-# PhaseTransitionGraphs  
-**Phase Transition and Giant Component Analysis in Erdős–Rényi Random Graphs**
-
----
-
-## 1. Introduction
-
-Random graphs form a foundational model in modern **network science, probability theory, and randomized algorithms**.  
-This project experimentally and theoretically studies **connectivity phase transitions** in the **Erdős–Rényi random graph model** using graph traversal algorithms such as **Depth-First Search (DFS)** and **Breadth-First Search (BFS)**.
-
-The central goal is to understand **how global structure emerges from local randomness**, and why random behavior becomes **predictable with high probability** as the graph size grows.
-
----
-
-## 📌 Objective
-
-The objectives of this project are to:
-
-- Study the **emergence of a giant connected component**
-- Identify the **critical threshold** at `p = 1 / n`
-- Understand the role of **Chernoff bounds** in explaining concentration
-- Validate probabilistic theory using experiments
-- Analyze **finite-size effects** in random graphs
-
----
-
-## 2. Erdős–Rényi Random Graph Model
-
-We work with the classical Erdős–Rényi model denoted by:
 G(n, p)
 
 where:
@@ -223,12 +194,19 @@ p = (1 + ε) / n
 ### n = 10
 ![n=10](results/plot_10.png)
 
+- Strong finite-size effects  
+- No sharp phase transition 
+
 ### n = 100
 ![n=100](results/plot_100.png)
+
+- The change in connectivity starts becoming noticeable around n·p ≈ 1
 
 ### n = 200
 ![n=200](results/plot_200.png)
 
+- Clearer phase transition  
+- Reduced variance  
 ### n = 500
 ![n=500](results/plot_500.png)
 
