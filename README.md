@@ -3,36 +3,31 @@
 
 ---
 
-## 🔍 Overview
+## 1. Introduction
 
-This project experimentally and theoretically studies **connectivity phase transitions** in **Erdős–Rényi random graphs** using **graph traversal algorithms (DFS/BFS)** and **probabilistic analysis**.
+Random graphs form a foundational model in modern **network science, probability theory, and randomized algorithms**.  
+This project experimentally and theoretically studies **connectivity phase transitions** in the **Erdős–Rényi random graph model** using graph traversal algorithms such as **Depth-First Search (DFS)** and **Breadth-First Search (BFS)**.
 
-The key idea explored is:
-
-> *How simple random edge choices lead to sharp, predictable global structure in large networks.*
-
-This phenomenon is fundamental to randomized algorithms, network science, and probability theory.
+The central goal is to understand **how global structure emerges from local randomness**, and why random behavior becomes **predictable with high probability** as the graph size grows.
 
 ---
 
-## 🎯 Objective
+## 📌 Objective
 
 The objectives of this project are to:
 
-- Observe the **emergence of a giant connected component**
+- Study the **emergence of a giant connected component**
 - Identify the **critical threshold** at  
   \( p = \frac{1}{n} \)
-- Understand **why randomness becomes predictable**
-- Validate theory using **Chernoff bounds**
-- Study **finite-size effects** through experiments
+- Understand the role of **Chernoff bounds** in explaining concentration
+- Validate probabilistic theory using experiments
+- Analyze **finite-size effects** in random graphs
 
 ---
 
-## 📘 Theoretical Background
+## 2. Erdős–Rényi Random Graph Model
 
-### Erdős–Rényi Random Graph Model
-
-We use the classical random graph model:
+We work with the classical Erdős–Rényi model denoted by:
 
 \[
 G(n, p)
@@ -42,92 +37,196 @@ where:
 - \( n \) is the number of vertices
 - Each unordered pair of vertices forms an edge **independently** with probability \( p \)
 
-Each edge corresponds to a **Bernoulli random variable**, making the graph a collection of independent probabilistic trials.
+---
+
+### 2.1 Bernoulli Trials Interpretation
+
+Each possible edge \( \{i, j\} \) corresponds to a **Bernoulli random variable**:
+
+\[
+X_{ij} =
+\begin{cases}
+1 & \text{with probability } p \\
+0 & \text{with probability } 1 - p
+\end{cases}
+\]
+
+Thus, a random graph is simply a **collection of independent Bernoulli trials**.
 
 ---
 
-### Critical Scaling: Why \( p = \frac{c}{n} \)
+## 3. Critical Scaling: Why \( p = \frac{c}{n} \)
 
-Choosing
+A key insight from random graph theory is that meaningful global behavior emerges when:
 
 \[
 p = \frac{c}{n}
 \]
 
-keeps the **expected degree** constant:
+Under this scaling:
+- The expected degree of a vertex is  
+  \[
+  \mathbb{E}[\deg(v)] = np = c
+  \]
+- The graph undergoes a **phase transition** at  
+  \[
+  c = 1
+  \]
 
-\[
-\mathbb{E}[\deg(v)] = np = c
-\]
-
-This scaling reveals a **phase transition** at:
-
-- **\( c < 1 \)** → graph has only small components  
-- **\( c > 1 \)** → a giant component emerges  
+This project focuses on this **critical regime**.
 
 ---
 
-### Connectivity Threshold
+## 4. Phase Transition Phenomenon
 
-A second threshold occurs at:
+### 4.1 Subcritical Regime (\( c < 1 \))
+
+- Average degree < 1  
+- Graph consists of small tree-like components  
+- Largest component size is  
+  \[
+  O(\log n)
+  \]
+- No giant component exists  
+
+---
+
+### 4.2 Supercritical Regime (\( c > 1 \))
+
+- Average degree > 1  
+- A **giant connected component** emerges  
+- Size of giant component is  
+  \[
+  \Theta(n)
+  \]
+- All other components remain small  
+
+---
+
+### 4.3 Connectivity Threshold
+
+A second important threshold occurs at:
 
 \[
 p \approx \frac{\log n}{n}
 \]
 
-Beyond this value, the graph becomes **fully connected with high probability**.
+At this point, the graph becomes **fully connected with high probability**.
 
 ---
 
-## 🧠 Role of DFS / BFS
+## 5. Role of Graph Traversal Algorithms
 
-Depth-First Search (DFS) and Breadth-First Search (BFS) are used to explore **connected components**.
+### 5.1 DFS / BFS and Connected Components
 
-Key insight:
+Both DFS and BFS explore **entire connected components** starting from a single vertex.
 
-> DFS does not search for the giant component —  
-> once it enters it, exploration naturally expands to linear size.
+- DFS recursively explores deep paths  
+- BFS explores level by level  
 
-This behavior is explained using a **branching process**, where growth depends on the expected number of neighbors \( np \).
+In both cases:
+
+> The size returned by DFS/BFS equals the size of the connected component containing the start node.
 
 ---
 
-## 🧪 Experiments Performed
+### 5.2 How DFS “Discovers” the Giant Component
 
-### 1️⃣ Phase Transition Visualization (`expt.py`)
+DFS does not search for the giant component explicitly. Instead:
 
-- Generates random graphs \( G(n,p) \)
-- Computes the largest connected component using BFS
-- Averages results over multiple trials
+- If DFS starts outside the giant → exploration ends quickly  
+- If DFS enters the giant → exploration continues for  
+  \[
+  \Theta(n)
+  \]
+  steps
+
+This behavior mirrors a **branching process** with:
+
+\[
+\mathbb{E}[\text{new neighbors}] = np
+\]
+
+- If \( np < 1 \) → process dies out  
+- If \( np > 1 \) → process survives with positive probability  
+
+---
+
+## 6. Probabilistic Theory: Chernoff Bounds
+
+### 6.1 Why Concentration Matters
+
+Many graph quantities (degree, BFS growth, number of edges) are sums of **independent Bernoulli random variables**.
+
+Chernoff bounds guarantee that such sums are **highly concentrated around their expectation**:
+
+\[
+\Pr(|X - \mathbb{E}[X]| > \varepsilon \mathbb{E}[X])
+\le e^{-\Theta(\mathbb{E}[X])}
+\]
+
+---
+
+### 6.2 Consequences for Random Graphs
+
+Chernoff bounds imply:
+
+- Degrees concentrate around \( np \)
+- BFS/DFS expansion is predictable
+- Giant component does not appear “by accident”
+- Phase transition becomes sharper as \( n \) increases  
+
+This explains why **randomness leads to law-like behavior**.
+
+---
+
+## 7. Experimental Design
+
+### 7.1 Overview of Experiments
+
+| File | Purpose |
+|----|----|
+| `expt.py` | Phase transition visualization |
+| `plot.cpp` | Subcritical regime validation |
+| `randomgen.cpp` | With-high-probability experiment |
+
+---
+
+### 7.2 Phase Transition Visualization (`expt.py`)
+
+- Generates \( G(n,p) \) graphs  
+- Computes largest connected component using BFS  
+- Averages results over multiple trials  
 - Plots  
   \[
   \frac{\text{Largest Component Size}}{n} \quad \text{vs} \quad np
   \]
 
-**Graph sizes tested:**  
+**Values tested:**  
 `n = 10, 100, 200, 500`
 
 ---
 
-### 2️⃣ Subcritical Regime Validation (`plot.cpp`)
+### 7.3 Subcritical Regime Validation (`plot.cpp`)
 
 - Uses  
   \[
   p = \frac{8}{9n} < \frac{1}{n}
   \]
-- Confirms absence of a giant component
-- Largest component remains small (theoretically \( O(\log n) \))
+- Demonstrates absence of giant component  
+- Confirms \( O(\log n) \) growth  
 
 ---
 
-### 3️⃣ With-High-Probability Experiment (`randomgen.cpp`)
+### 7.4 With-High-Probability Experiment (`randomgen.cpp`)
 
 - Uses  
   \[
   p = \frac{1 + \varepsilon}{n}
   \]
-- Runs multiple independent trials
-- Empirically validates **with high probability (WHP)** guarantees
+- Runs multiple independent trials  
+- Counts how often large components appear  
+- Empirically validates **WHP guarantees**
 
 ---
 
@@ -137,13 +236,12 @@ The following plots show the **normalized size of the largest connected componen
 
 ---
 
-### 🔹 n = 10 (Very small graph)
+### 🔹 n = 10
 
 ![Phase Transition n=10](results/plot_10.png)
 
-- Strong finite-size effects
-- No sharp phase transition
-- High randomness dominates behavior
+- Strong finite-size effects  
+- No sharp phase transition  
 
 ---
 
@@ -151,8 +249,7 @@ The following plots show the **normalized size of the largest connected componen
 
 ![Phase Transition n=100](results/plot_100.png)
 
-- Transition near \( np \approx 1 \) becomes visible
-- Giant component begins to emerge
+- Transition near \( np \approx 1 \) becomes visible  
 
 ---
 
@@ -160,52 +257,28 @@ The following plots show the **normalized size of the largest connected componen
 
 ![Phase Transition n=200](results/plot_200.png)
 
-- Clearer phase transition
-- Reduced variance compared to smaller graphs
+- Clearer phase transition  
+- Reduced variance  
 
 ---
 
-### 🔹 n = 500 (Closest to theory)
+### 🔹 n = 500
 
 ![Phase Transition n=500](results/plot_500.png)
 
-- Sharp emergence of the giant component near \( np = 1 \)
-- Strong agreement with Erdős–Rényi theory
-- Concentration effects clearly visible
-
----
-
-## 📐 Why Theory Matches Experiments
-
-Chernoff bounds guarantee strong concentration of sums of independent Bernoulli variables.
-
-As a result:
-- Vertex degrees concentrate around \( np \)
-- DFS/BFS expansion becomes predictable
-- The phase transition sharpens as \( n \) increases
-
-This explains why **randomness leads to law-like behavior** in large graphs.
-
----
-
-## ⚠️ Scalability Notes
-
-The exact Erdős–Rényi model requires \( O(n^2) \) edge checks.
-
-To ensure feasibility:
-- Experiments are conducted for moderate \( n \)
-- The probabilistic model remains unchanged
-- Only finite-size effects are introduced
+- Sharp emergence of the giant component  
+- Strong agreement with Erdős–Rényi theory  
+- Concentration effects clearly visible  
 
 ---
 
 ## 🛠 How to Run
 
 ```bash
-# Python experiment (phase transition plots)
+# Python experiment
 python expt.py
 
-# Subcritical regime experiment
+# Subcritical regime
 g++ plot.cpp -o plot
 ./plot
 
