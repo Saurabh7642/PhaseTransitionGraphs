@@ -50,19 +50,48 @@ We perform three types of experiments:
 
 ## 📊 Results
 
-Plots are available in the `results/` folder.
-They show:
-- A sharp transition near np = 1
-- Increasing concentration as n grows
-- Agreement with classical random graph theory
+## 📈 Experimental Results
+
+The following plots show the normalized size of the largest connected component  
+as a function of the expected degree \( np \) for different graph sizes.
 
 ---
 
-## ⚠️ Notes on Scalability
+### 🔹 n = 10 (Very small graph)
 
-The original theoretical model requires O(n²) edge checks.
-To ensure feasibility in limited environments, experiments are conducted for moderate n.
-This does not affect the correctness of the model, only introduces finite-size effects.
+![Phase Transition n=10](results/plot_10.png)
+
+- Strong finite-size effects
+- No sharp phase transition
+- High randomness dominates behavior
+
+---
+
+### 🔹 n = 100
+
+![Phase Transition n=100](results/plot_100.png)
+
+- Transition near \( np \approx 1 \) becomes visible
+- Giant component starts to emerge
+
+---
+
+### 🔹 n = 200
+
+![Phase Transition n=200](results/plot_200.png)
+
+- Clearer phase transition
+- Reduced variance compared to n = 100
+
+---
+
+### 🔹 n = 500 (Closest to theory)
+
+![Phase Transition n=500](results/plot_500.png)
+
+- Sharp emergence of the giant component near \( np = 1 \)
+- Strong agreement with Erdős–Rényi theory
+- Concentration effects clearly visible
 
 ---
 
